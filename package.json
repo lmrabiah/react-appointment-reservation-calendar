@@ -3,10 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap": "^4.3.1",
+    "install": "^0.13.0",
     "moment": "^2.24.0",
+    "npm": "^6.11.3",
     "react": "^16.9.0",
+    "react-datepicker": "^2.9.6",
     "react-dom": "^16.9.0",
-    "react-scripts": "3.1.2"
+    "react-scripts": "3.1.2",
+    "reactstrap": "^8.0.1",
+    "uninstall": "0.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
