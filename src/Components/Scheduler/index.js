@@ -15,6 +15,7 @@ const Schedular = () => {
 
     const handlePrevNextWeekButtons = type => {
         const newWeekCounter = (type === 'next') ? weekCounter+1 : weekCounter-1;
+
         const newWeek = moment().add(newWeekCounter, 'weeks');
         setWeekCounter(newWeekCounter)
         setWeekDays(getWeekDays(newWeek))
@@ -27,11 +28,17 @@ const Schedular = () => {
         const selectedDate = moment(datePickerValue);
         const difference = selectedDate.diff(currentDate, 'weeks');
         const newWeekCounter = weekCounter + difference;
+
         const newWeek = moment().add(newWeekCounter, 'weeks')
-        
         setWeekCounter(newWeekCounter)
         setWeekDays(getWeekDays(newWeek))
         setStartDate(newWeek)
+    }
+
+    const timeSlotStatus = (slotDate, slotTime) => {
+        const  slotDateTime =  moment(slotDate).add(slotTime, 'hour')
+        if(moment().diff(slotDateTime) >= 0) return "past"
+        else return "present";
     }
 
     return (
@@ -41,7 +48,9 @@ const Schedular = () => {
             handleClick={handlePrevNextWeekButtons}
             weekdays={weekDays}
             startDate={startDate} />
-            <Calendar weekdays={weekDays} />
+            <Calendar 
+                weekdays={weekDays}
+                slotStatus={timeSlotStatus} />
         </Container>
         
     )

@@ -5,7 +5,7 @@ const TableHead = props => {
     return (
         <thead>
             <tr>
-                <th>TIME</th>
+                <th width="12.5%" className="sticky-header">TIME</th>
                 {
                     props.weekdays.map((item, index) =>
                         <TableHeadCell key={index} {...item} />

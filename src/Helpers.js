@@ -27,3 +27,16 @@ export const dateSelectorLabel = dates => {
 
     return `${moment(firstday).format("MMM DD")} to ${moment(lastday).format("MMM DD")}`
 }
+
+export const timeSlots = () => {
+    const slots = [];
+
+    for(let i = 10; i <= 23; i++) {
+        slots.push({
+            hour: i,
+            formattedHour: `${i.toLocaleString(undefined, {minimumIntegerDigits: 2, useGrouping: false})}:00`
+        })
+    }
+
+    return slots;
+}

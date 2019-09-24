@@ -7,11 +7,16 @@ import { Button } from 'reactstrap';
 
 import { dateSelectorLabel } from '../../Helpers';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
+
 const DateSelector = props => {
 
     const DateCustomInput = ({ onClick }) => (
-      <Button className="example-custom-input" onClick={onClick}>
-       { dateSelectorLabel(props.weekdays)}
+      <Button 
+        className="btn-date-picker" 
+        onClick={onClick}>
+       { dateSelectorLabel(props.weekdays)} <FontAwesomeIcon icon={faCalendarAlt} />
       </Button>
     );
 

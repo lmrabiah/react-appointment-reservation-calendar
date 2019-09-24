@@ -5,17 +5,19 @@ import {
     Button 
 } from 'reactstrap';
 import DateSelector from '../DateSelector';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 
 const CalendarControls = props => {
     
     return(
-        <Row>
+        <Row className="calendar-buttons">
             <Col md="4" className="text-left">
                 <Button
                     color="primary"
                     onClick={() => props.handleClick('prev')}
-                >PREVIOUS WEEK</Button>
+                ><FontAwesomeIcon icon={faArrowLeft} /> <span className="mt-1">PREVIOUS WEEK</span></Button>
             </Col>
 
             <Col md="4" className="text-center">
@@ -30,7 +32,7 @@ const CalendarControls = props => {
                 <Button
                     color="primary"
                     onClick={() => props.handleClick('next')}
-                >NEXT WEEK</Button>
+                ><span>NEXT WEEK</span> <FontAwesomeIcon icon={faArrowRight} /></Button>
             </Col>
         </Row>
     )
