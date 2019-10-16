@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap");
 
 body {
   margin: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -25,13 +25,13 @@ th.sticky-header {
 }
 
 table tr th {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   text-transform: uppercase;
 }
 
 table tr td {
-  font-family: 'Montserrat', sans-serif;
-  padding: 6px
+  font-family: "Montserrat", sans-serif;
+  padding: 6px;
 }
 
 .button-container {
@@ -50,7 +50,7 @@ table tr td {
 
 .calendar-buttons .btn,
 .react-datepicker {
-  font-family: 'Montserrat', sans-serif !important;
+  font-family: "Montserrat", sans-serif !important;
 }
 
 .btn-date-picker {
@@ -64,5 +64,14 @@ table tr td {
 .fa-caret-left,
 .fa-caret-right {
   vertical-align: middle;
-  font-size: 2.0em;
+  font-size: 2em;
+}
+
+.book {
+  cursor: pointer;
+}
+
+.srv-validation-message {
+  font-size: 11px;
+  color: #ed1c23;
 }

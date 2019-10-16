@@ -1,58 +1,87 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
 import Calendar from "../Calendar";
 import moment from "moment";
 import { getWeekDays } from "../../Helpers";
 import CalendarControls from "../CalendarControls";
 import { Container } from "reactstrap";
+import BookingForm from "../BookingForm";
 
-const Schedular = () => {
-  const [weekCounter, setWeekCounter] = useState(0);
-  const [weekDays, setWeekDays] = useState(
-    getWeekDays(moment().add(weekCounter, "weeks"))
-  );
-  const [startDate, setStartDate] = useState(moment());
-
-  // the event handler for the NEXT and PREVIOUS week button
-  const handlePrevNextWeekButtons = type => {
-    const newWeekCounter = type === "next" ? weekCounter + 1 : weekCounter - 1;
-
-    const newWeek = moment().add(newWeekCounter, "weeks");
-    setWeekCounter(newWeekCounter);
-    setWeekDays(getWeekDays(newWeek));
-    setStartDate(newWeek);
+class Schedular extends Component {
+  constructor(props) {
+    super(props);
+    this.toggleBookModal = this.toggleBookModal.bind(this);
+  }
+  state = {
+    weekCounter: 0,
+    weekDays: getWeekDays(moment().add(0, "weeks")),
+    startDate: moment(),
+    bookModal: false
   };
 
+  toggleBookModal() {
+    this.setState({ bookModal: !this.state.bookModal });
+  }
+
+  // the event handler for the NEXT and PREVIOUS week button
+  handlePrevNextWeekButtons(type) {
+    const weekCounter =
+      type === "next" ? this.state.weekCounter + 1 : this.state.weekCounter - 1;
+
+    const startDate = moment().add(weekCounter, "weeks");
+    const weekDays = getWeekDays(startDate);
+
+    this.getBookedSlots(weekDays);
+    this.setState({ weekCounter, weekDays, startDate });
+  }
+
   // changes the calender week to the week selected on the date picker
-  const handleDatePickerChange = datePickerValue => {
-    const currentDate = moment().add(weekCounter, "weeks");
+  handleDatePickerChange = datePickerValue => {
+    const currentDate = moment().add(this.state.weekCounter, "weeks");
     const selectedDate = moment(datePickerValue);
     const difference = selectedDate.diff(currentDate, "weeks");
-    const newWeekCounter = weekCounter + difference;
+    const weekCounter = this.state.weekCounter + difference;
 
-    const newWeek = moment().add(newWeekCounter, "weeks");
-    setWeekCounter(newWeekCounter);
-    setWeekDays(getWeekDays(newWeek));
-    setStartDate(newWeek);
+    const startDate = moment().add(weekCounter, "weeks");
+    const weekDays = getWeekDays(startDate);
+
+    this.getBookedSlots(weekDays);
+    this.setState({ weekCounter, weekDays, startDate });
   };
 
   // determines if the timeslot is booked, past or available to be booked
-  const timeSlotStatus = (slotDate, slotTime) => {
+  timeSlotStatus = (slotDate, slotTime) => {
     const slotDateTime = moment(slotDate).add(slotTime, "hour");
     if (moment().diff(slotDateTime) >= 0) return "past";
     else return "present";
   };
 
-  return (
-    <Container>
-      <CalendarControls
-        handleDatePickerChange={handleDatePickerChange}
-        handleClick={handlePrevNextWeekButtons}
-        weekdays={weekDays}
-        startDate={startDate}
-      />
-      <Calendar weekdays={weekDays} slotStatus={timeSlotStatus} />
-    </Container>
-  );
-};
+  book = (slotDate, slotTime) => {
+    console.log(slotDate, slotTime);
+    this.toggleBookModal();
+  };
+
+  render() {
+    return (
+      <Container>
+        <CalendarControls
+          handleDatePickerChange={this.handleDatePickerChange}
+          handleClick={this.handlePrevNextWeekButtons}
+          weekdays={this.state.weekDays}
+          startDate={this.state.startDate}
+        />
+        <Calendar
+          weekdays={this.state.weekDays}
+          slotStatus={this.timeSlotStatus}
+          book={this.book}
+        />
+
+        <BookingForm
+          isOpen={this.state.bookModal}
+          toggle={this.toggleBookModal}
+        />
+      </Container>
+    );
+  }
+}
 
 export default Schedular;

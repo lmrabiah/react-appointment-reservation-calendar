@@ -1,12 +1,12 @@
-import React from 'react';
-import TableHead from '../TableHead';
-import TableBody from '../TableBody';
+import React from "react";
+import TableHead from "../TableHead";
+import TableBody from "../TableBody";
 
-const Calendar = props => (
-    <table style={{width: '100%'}}>
-        <TableHead weekdays={props.weekdays} />
-        <TableBody weekdays={props.weekdays} slotStatus={props.slotStatus} />
-    </table>
-)
+const Calendar = ({ weekdays, slotStatus, book }) => (
+  <table style={{ width: "100%" }}>
+    <TableHead weekdays={weekdays} />
+    <TableBody weekdays={weekdays} slotStatus={slotStatus} book={book} />
+  </table>
+);
 
 export default Calendar;
