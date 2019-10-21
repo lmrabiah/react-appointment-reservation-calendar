@@ -15,7 +15,8 @@ class Schedular extends Component {
     weekCounter: 0,
     weekDays: getWeekDays(moment().add(0, "weeks")),
     startDate: moment(),
-    bookModal: false
+    bookModal: false,
+    selectedTimeSlot: ""
   };
 
   toggleBookModal() {
@@ -57,6 +58,10 @@ class Schedular extends Component {
 
   book = (slotDate, slotTime) => {
     console.log(slotDate, slotTime);
+    const selectedTimeSlot = moment(slotDate)
+      .add(slotTime, "hour")
+      .format();
+    this.setState({ selectedTimeSlot });
     this.toggleBookModal();
   };
 
@@ -78,6 +83,7 @@ class Schedular extends Component {
         <BookingForm
           isOpen={this.state.bookModal}
           toggle={this.toggleBookModal}
+          selectedTimeSlot={this.state.selectedTimeSlot}
         />
       </Container>
     );
