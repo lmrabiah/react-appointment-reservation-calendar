@@ -47,3 +47,5 @@ export const timeSlots = () => {
 };
 const baseApi = "http://localhost:5000/";
 export const postSlot = request => axios.post(`${baseApi}timeslots`, request);
+export const getSlots = (from, to) =>
+  axios.get(`${baseApi}timeslots?time_gte=${from}&time_lte=${to}`);

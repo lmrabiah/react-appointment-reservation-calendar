@@ -39,6 +39,7 @@ export default class BookingForm extends Component {
           )
         });
         this.props.toggle();
+        this.setState({ name: "", purpose: "" });
       } catch (error) {
         console.log(error);
       }

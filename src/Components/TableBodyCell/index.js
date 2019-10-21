@@ -1,14 +1,17 @@
 import React from "react";
 
 const TableBodyCell = ({ slotStatus, weekday, timeslot, book }) => {
+  const status = slotStatus(weekday, timeslot);
   return (
     <>
-      {slotStatus(weekday, timeslot) === "past" ? (
+      {status !== "available" ? (
         <td className="text-center">
           <div
             className="button-container"
             style={{ backgroundColor: "#d8d8d8" }}
-          ></div>
+          >
+            {status === "booked" ? "BOOKED" : null}
+          </div>
         </td>
       ) : (
         <td className="text-center">

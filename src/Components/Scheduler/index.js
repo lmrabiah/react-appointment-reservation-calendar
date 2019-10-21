@@ -5,18 +5,21 @@ import { getWeekDays } from "../../Helpers";
 import CalendarControls from "../CalendarControls";
 import { Container } from "reactstrap";
 import BookingForm from "../BookingForm";
+import { getSlots } from "../../Helpers";
 
 class Schedular extends Component {
   constructor(props) {
     super(props);
     this.toggleBookModal = this.toggleBookModal.bind(this);
+    this.handlePrevNextWeekButtons = this.handlePrevNextWeekButtons.bind(this);
   }
   state = {
     weekCounter: 0,
     weekDays: getWeekDays(moment().add(0, "weeks")),
     startDate: moment(),
     bookModal: false,
-    selectedTimeSlot: ""
+    selectedTimeSlot: "",
+    bookedSlots: []
   };
 
   toggleBookModal() {
@@ -53,17 +56,48 @@ class Schedular extends Component {
   timeSlotStatus = (slotDate, slotTime) => {
     const slotDateTime = moment(slotDate).add(slotTime, "hour");
     if (moment().diff(slotDateTime) >= 0) return "past";
-    else return "present";
+    else if (
+      this.state.bookedSlots.find(
+        item =>
+          item.time.toString() ===
+          slotDateTime.utc(true).format("YYYY-MM-DD HH:mm:ss")
+      )
+    )
+      return "booked";
+    else return "available";
   };
 
   book = (slotDate, slotTime) => {
-    console.log(slotDate, slotTime);
     const selectedTimeSlot = moment(slotDate)
       .add(slotTime, "hour")
       .format();
     this.setState({ selectedTimeSlot });
     this.toggleBookModal();
   };
+
+  // gets all the reserved slot for the currently shown dates
+  getBookedSlots = async weekDays => {
+    const from = moment(weekDays[0].weekday)
+      .add(10, "hour")
+      .utc(true)
+      .format();
+    const to = moment(weekDays[weekDays.length - 1].weekday)
+      .add(23, "hour")
+      .utc(true)
+      .format();
+
+    try {
+      const bookedSlots = await getSlots(from, to);
+      this.setState({ bookedSlots: bookedSlots.data });
+      this.getBookedSlots(this.state.weekDays);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  componentDidMount() {
+    this.getBookedSlots(this.state.weekDays);
+  }
 
   render() {
     return (
