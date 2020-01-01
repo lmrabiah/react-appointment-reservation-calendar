@@ -1,1 +1,0 @@
-# react-appointment-reservation-calendar
